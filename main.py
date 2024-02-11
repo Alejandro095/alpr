@@ -61,7 +61,7 @@ coco_model = YOLO('yolov8n.pt')
 license_plate_detector = YOLO('./models/license_plate_detector.pt')
 
 # load video
-cap = cv2.VideoCapture('./sample.mp4')
+cap = cv2.VideoCapture('./sample-4.mp4')
 
 # read frames
 frame_nmr = -1
@@ -79,14 +79,93 @@ while ret:
             license_plate_crop = frame[int(y1):int(y2), int(x1): int(x2), :]
 
             # process license plate
-            license_plate_crop_processed = opening(thresholding(get_grayscale(license_plate_crop)))
+            gray = cv2.cvtColor(license_plate_crop, cv2.COLOR_BGR2GRAY)
+
+            threshold = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
             # read license plate number
-            license_plate_text, license_plate_text_score = read_license_plate(license_plate_crop_processed)
-
-            cv2.imshow('frame', license_plate_crop)
-            cv2.imshow('thresh', license_plate_crop_processed)
+            license_plate_text, license_plate_text_score = read_license_plate(threshold)
 
             print(f'License plate text: {license_plate_text}')
 
-            cv2.waitKey(0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # read frames
+# frame_nmr = -1
+# ret = True
+# while ret:
+#     frame_nmr += 1
+#     ret, frame = cap.read()
+#     if ret:
+#         # detect license plates
+#         license_plates = license_plate_detector(frame)[0]
+#         for license_plate in license_plates.boxes.data.tolist():
+#             x1, y1, x2, y2, score, class_id = license_plate
+
+#             # crop license plate
+#             license_plate_crop = frame[int(y1):int(y2), int(x1): int(x2), :]
+
+#             cv2.imshow('License plate', license_plate_crop)
+#             cv2.waitKey(0)
+
+#             # process license plate
+#             thresholded = cv2.cvtColor(license_plate_crop, cv2.COLOR_BGR2GRAY)
+
+#             cv2.imshow('License plate', license_plate_crop_processed)
+#             cv2.waitKey(0)
+
+#             license_plate_crop_processed = cv2.threshold(license_plate_crop_processed, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+
+#             cv2.imshow('License plate', license_plate_crop_processed)
+#             cv2.waitKey(0)
+
+#             license_plate_crop_processed = cv2.distanceTransform( , cv2.DIST_L2, 5)
+#             license_plate_crop_processed = cv2.normalize(license_plate_crop_processed, license_plate_crop_processed, 0, 1.0, cv2.NORM_MINMAX)
+#             license_plate_crop_processed = (license_plate_crop_processed * 255).astype(np.uint8)
+
+#             cv2.imshow('License plate', license_plate_crop_processed)
+#             cv2.waitKey(0)
+
+#             license_plate_crop_processed = cv2.threshold(license_plate_crop_processed, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+
+#             cv2.imshow('License plate', license_plate_crop_processed)
+#             cv2.waitKey(0)
+
+#             # read license plate number
+#             license_plate_text, license_plate_text_score = read_license_plate(license_plate_crop_processed)
+
+#             print(f'License plate text: {license_plate_text}')
+
+#             cv2.imshow('License plate', license_plate_crop_processed)
+
+#             cv2.waitKey(0)

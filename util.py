@@ -30,7 +30,7 @@ def license_complies_format(text):
     Returns:
         bool: True if the license plate complies with the format, False otherwise.
     """
-    return False
+    return True
 
 
 def format_license(text):
@@ -65,7 +65,6 @@ def read_license_plate(license_plate_crop):
 
         text = text.upper().replace(' ', '')
 
-        if license_complies_format(text):
-            return format_license(text), score
+        print(f'LPT: {text}')
 
     return None, None
